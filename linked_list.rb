@@ -17,49 +17,60 @@ class Node
 			return false
 		end
  		cyclic?(node.nxt) #recursive call on the next node
+ 	end
+
+ 	def to_s
+ 		if nxt.object_id == 8
+ 			"#{self.value} -- >"
+ 		else
+ 			"#{self.value} --------> #{nxt.value}"
+ 		end
+ 	end
+ end
+
+
+#Fun little program that randomly connects 0-8 nodes to eachother, then proceeds to connect all of the nodes in an acylic manner.
+people = %w[Albert Alex Allison Ariel Arik Brian
+	Bridgette Chandler Ernie Gannon Hethe Jared
+	John Justin Kendall Lauren Matthew Michele
+	Morgan Patrick Phillip Premila Puru Steven
+	Tony William].shuffle.map {|name| Node.new(name)}
+
+	people_sample = people
+
+	rand(0..8).times {|idx| people[idx].nxt = people_sample.delete_at(rand(people_sample.length))}
+
+	puts people.join("\n")
+	puts "-"*50
+
+	people.each.with_index do |node, idx|
+		node.nxt = people[idx + 1] unless node.nxt
 	end
 
-	def to_s
-		"#{self.class}[#{self.object_id}] --> #{nxt.object_id}"
-	end
-end
+	puts people.join("\n")
+	puts Node.cyclic?(people.first)
 
-# TESTS (trying to model a real world example)
-#The first ten people have passed a message to ten random people out of 80. Goal: make sure everyone is connected with no repeats.
-people = Array.new(50) {Node.new}
 
-10.times {|idx| people[idx].nxt = people.sample }
 
-puts people.join("\n")
+# #TESTS
+# #linked_list number 1 (not cyclic)
+# # first = Node.new("first")
+# # second = Node.new("second")
+# # third = Node.new("third")
 
-puts "-"*50
-people.each.with_index do |node, idx|
-	node.nxt = people[idx + 1] unless node.nxt
-end
+# # #pointers
+# # first.nxt = second
+# # second.nxt = third
+# # third.nxt
+# # p Node.cyclic?(first) #false
 
-puts people.join("\n")
+# # arik = Node.new("arik")
+# # bob = Node.new("bob")
+# # john = Node.new("john")
 
-p Node.cyclic?(people.first)
-
-#TESTS
-#linked_list number 1 (not cyclic)
-# first = Node.new("first")
-# second = Node.new("second")
-# third = Node.new("third")
-
-# #pointers
-# first.nxt = second
-# second.nxt = third
-# third.nxt
-# p Node.cyclic?(first) #false
-
-# arik = Node.new("arik")
-# bob = Node.new("bob")
-# john = Node.new("john")
-
-# #pointers
-# arik.nxt = bob
-# bob.nxt = john
-# john.nxt = arik
-# p Node.cyclic?(arik) #true
+# # #pointers
+# # arik.nxt = bob
+# # bob.nxt = john
+# # john.nxt = arik
+# # p Node.cyclic?(arik) #true
 
