@@ -1,6 +1,3 @@
-# Please develop a method to check that a linked list isn't cyclic.
-# The list is 1-directional, and can cycle between nodes that aren't in their regular order in memory.
-
 class Node
 	attr_accessor :nxt, :value, :frequencies
 	@frequencies = Hash.new(0)
@@ -38,7 +35,8 @@ people = %w[Albert Alex Allison Ariel Arik Brian
 
 	people_sample = people
 
-	rand(0..8).times {|idx| people[idx].nxt = people_sample.delete_at(rand(people_sample.length))}
+	rand(0..8).times {|idx| people[idx].nxt = 
+		people_sample.delete_at(rand(people_sample.length))}
 
 	puts people.join("\n")
 	puts "-"*50
